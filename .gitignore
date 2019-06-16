@@ -1,5 +1,4 @@
 useful_copypaste
-.idea/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -88,6 +87,8 @@ celerybeat-schedule
 .venv
 env/
 venv/
+.idea/
+data/db
 ENV/
 env.bak/
 venv.bak/
