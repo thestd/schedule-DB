@@ -4,3 +4,5 @@ __pycache__/
 useful_copypaste
 venv/
 .idea/
+data/db
+.env
