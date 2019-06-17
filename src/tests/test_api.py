@@ -61,3 +61,17 @@ class TestScheduleQueryHandler(TornadoMotorAsyncTest):
         self.assertEqual(data['user_id'], 1)
         self.assertEqual(data['query'], 'ПІ-4')
         self.assertEqual(data['query_type'], 'student')
+
+    # this test don't work
+    @gen_test
+    def test_empty_schedule_data(self):
+        url = '/api/schedule-query/2/'
+        invalid_body = {'query': "", 'query_type': "d"}
+        response = yield self.http_client.fetch(self.get_url(url),
+                                                method="PUT",
+                                                body=json.dumps(invalid_body))
+
+        data = json.loads(response.body)
+
+        self.assertEqual(response.code, 400)
+        self.assertEqual(data['detail'], 'Query can\'t be empty')
