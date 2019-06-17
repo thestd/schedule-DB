@@ -35,18 +35,28 @@ class ScheduleQueryHandler(RequestHandler):
         user_id, query, query_type = (int(user_id),
                                       body['query'],
                                       body['query_type'])
-
-        await self.schedule_query.save(user_id, query, query_type)
-        self.set_status(200)
-        self.write(self.serialize(user_id, query, query_type))
+        if query and query_type:
+            await self.schedule_query.save(user_id, query, query_type)
+            self.set_status(200)
+            self.write(self.serialize(user_id, query, query_type))
+        else:
+            self.set_status(400)
+            self.write(self.serialize_error_detail())
 
     @staticmethod
     def serialize(user_id, query, query_type):
         return json.dumps({
             'user_id': user_id,
+
             'query': query,
             'query_type': query_type
         }, ensure_ascii=False)
+
+    @staticmethod
+    def serialize_error_detail():
+        return json.dumps({
+            'detail': 'Query can\'t be empty',
+        })
 
     @property
     def db(self):
