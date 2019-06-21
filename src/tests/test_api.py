@@ -69,22 +69,22 @@ class TestScheduleQueryHandler(TornadoMotorAsyncTest):
         body = json.dumps(invalid_body)
 
         response = yield self.http_client.fetch(self.get_url(url),
-                                                raise_error=False,
                                                 method="PUT",
-                                                body=body)
+                                                body=body,
+                                                raise_error=False)
         data = json.loads(response.body)
 
         self.assertEqual(response.code, 400)
-        self.assertEqual(data['detail'], 'Query can\'t be empty')
+        self.assertEqual(data['detail'], "Query can't be empty")
 
     @gen_test
     def test_empty_body(self):
         url = '/api/schedule-query/2/'
 
         response = yield self.http_client.fetch(self.get_url(url),
-                                                raise_error=False,
                                                 method="PUT",
-                                                body="")
+                                                body="",
+                                                raise_error=False)
         data = json.loads(response.body)
         self.assertEqual(response.code, 400)
-        self.assertEqual(data['detail'], 'Body can\'t be empty')
+        self.assertEqual(data['detail'], "Body can't be empty")

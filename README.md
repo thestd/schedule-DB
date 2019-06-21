@@ -1,5 +1,7 @@
 # Schedule DB
 
+[![Build Status](http://ci.pnu-bot.pp.ua/buildStatus/icon?job=schedule-DB/master)](http://ci.pnu-bot.pp.ua/job/schedule-DB/job/master/)
+
 Run mongo, mongo-express in docker container
 ```bash
 docker-compose up -d
