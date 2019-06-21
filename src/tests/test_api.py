@@ -1,6 +1,5 @@
 import json
 
-from tornado.httpclient import HTTPClientError
 from tornado.testing import gen_test
 
 from app.db.storage import ScheduleQuery
@@ -69,11 +68,23 @@ class TestScheduleQueryHandler(TornadoMotorAsyncTest):
         invalid_body = {'query': "", 'query_type': "d"}
         body = json.dumps(invalid_body)
 
-        with self.assertRaises(HTTPClientError):
-            response = yield self.http_client.fetch(self.get_url(url),
-                                                    method="PUT",
-                                                    body=body)
-            data = json.loads(response.body)
+        response = yield self.http_client.fetch(self.get_url(url),
+                                                raise_error=False,
+                                                method="PUT",
+                                                body=body)
+        data = json.loads(response.body)
 
-            self.assertEqual(response.code, 400)
-            self.assertEqual(data['detail'], 'Query can\'t be empty')
+        self.assertEqual(response.code, 400)
+        self.assertEqual(data['detail'], 'Query can\'t be empty')
+
+    @gen_test
+    def test_empty_body(self):
+        url = '/api/schedule-query/2/'
+
+        response = yield self.http_client.fetch(self.get_url(url),
+                                                raise_error=False,
+                                                method="PUT",
+                                                body="")
+        data = json.loads(response.body)
+        self.assertEqual(response.code, 400)
+        self.assertEqual(data['detail'], 'Body can\'t be empty')
