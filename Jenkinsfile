@@ -8,6 +8,7 @@ pipeline {
 
   environment {
     COVERALLS_REPO_TOKEN = credentials('SCHEDULE_DB_COVERALLS_REPO_TOKEN')
+    CODACY_PROJECT_TOKEN = credentials('SCHEDULE_DB_CODACY_PROJECT_TOKEN')
   }
 
   stages {
@@ -20,7 +21,14 @@ pipeline {
     stage('test') {
       steps {
         sh 'nosetests --with-coverage'
+      }
+    }
+
+    stage('coverage') {
+      steps {
+        sh 'coverage xml'
         sh 'coveralls'
+        sh 'python-codacy-coverage'
       }
     }
 
