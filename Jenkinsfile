@@ -1,6 +1,6 @@
 pipeline {
-  agent { 
-    docker { 
+  agent {
+    docker {
       image 'python:3.7.3'
       args '--network=host'
     } 
@@ -16,7 +16,13 @@ pipeline {
     stage('test') {
       steps {
         sh 'nosetests'
-      }   
+      }
+    }
+
+    stage('flake8') {
+      steps {
+        sh 'flake8 src'
+      }
     }
   }
 }
