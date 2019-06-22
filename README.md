@@ -1,6 +1,7 @@
 # Schedule DB
 
-[![Build Status](http://ci.pnu-bot.pp.ua/buildStatus/icon?job=schedule-DB/master)](http://ci.pnu-bot.pp.ua/job/schedule-DB/job/master/)
+[![Build Status](http://ci.pnu-bot.pp.ua/buildStatus/icon?job=schedule-DB/master)](http://ci.pnu-bot.pp.ua/blue/organizations/jenkins/schedule-DB/activity)
+[![Coverage Status](https://coveralls.io/repos/github/thestd/schedule-DB/badge.svg?branch=master)](https://coveralls.io/github/thestd/schedule-DB?branch=master)
 
 Run mongo, mongo-express in docker container
 ```bash
