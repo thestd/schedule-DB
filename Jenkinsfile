@@ -6,6 +6,10 @@ pipeline {
     } 
   }
 
+  environment {
+    COVERALLS_REPO_TOKEN = credentials('SCHEDULE_DB_COVERALLS_REPO_TOKEN')
+  }
+
   stages {
     stage('install') {
       steps {
@@ -16,6 +20,7 @@ pipeline {
     stage('test') {
       steps {
         sh 'nosetests --with-coverage'
+        sh 'coveralls'
       }
     }
 
