@@ -15,7 +15,7 @@ pipeline {
 
     stage('test') {
       steps {
-        sh 'nosetests'
+        sh 'nosetests --with-coverage'
       }
     }
 
