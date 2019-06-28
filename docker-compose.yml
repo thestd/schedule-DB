@@ -1,6 +1,20 @@
 version: '3.7'
 
 services:
+  tornado:
+    build: .
+    container_name: tornado
+    restart: always
+    ports:
+      - ${TORNADO_PORT}:${APP_PORT}
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mongo
+      DB_PORT: 27017
+    depends_on:
+      - mongo
+
   mongo:
     image: mongo
     container_name: mongo
@@ -22,7 +36,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - 8081:8081
+      - ${MONGO_EXPRESS_PORT}:8081
     env_file:
       - .env
     environment:

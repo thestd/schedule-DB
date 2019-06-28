@@ -88,7 +88,6 @@ celerybeat-schedule
 env/
 venv/
 .idea/
-data/db
 ENV/
 env.bak/
 venv.bak/
@@ -105,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# docker volume
+data/
