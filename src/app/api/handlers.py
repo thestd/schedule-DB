@@ -1,6 +1,5 @@
 import json
 
-from tornado.options import options
 from tornado.web import RequestHandler
 
 from app.db.storage import ScheduleQuery
@@ -15,8 +14,6 @@ class ScheduleQueryHandler(RequestHandler):
 
     def set_default_headers(self):
         self.set_header("Content-Type", 'application/json; charset="utf-8"')
-        self.set_header('Access-Control-Allow-Origin',
-                        options.cors_allow_origin)
 
     async def get(self, user_id):
         schedule_query = await self.schedule_query.find(user_id=user_id)

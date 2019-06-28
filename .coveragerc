@@ -6,3 +6,5 @@ branch = True
 show_missing = True
 include =
     src/app/*
+omit =
+    src/app/main.py

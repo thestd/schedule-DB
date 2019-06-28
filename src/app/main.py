@@ -1,23 +1,21 @@
 #!/usr/bin/env python
-from motor import MotorClient
 from tornado.ioloop import IOLoop
 from tornado.options import options
-from tornado.web import Application
 
-from app.api.urls import urls
+from app.settings.config import make_app
 
 
-def make_app():
-    db = MotorClient(options.db_uri)[options.db_name]
-    return Application(handlers=urls,
-                       db=db,
-                       debug=True)
+def start_loop():
+    try:
+        IOLoop.current().start()
+    except KeyboardInterrupt:
+        IOLoop.current().stop()
 
 
 def main():
     app = make_app()
     app.listen(options.app_port)
-    IOLoop.instance().start()
+    start_loop()
 
 
 if __name__ == '__main__':

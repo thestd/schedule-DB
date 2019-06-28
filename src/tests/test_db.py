@@ -10,14 +10,6 @@ class ScheduleQueryDatabaseTest(TornadoMotorAsyncTest):
         self.query = ScheduleQuery(self.db)
 
     @gen_test
-    def test_object_insert(self):
-        yield self.db.test.insert_one({'name': 'vasya',
-                                       'surname': 'pupkin'})
-        user = yield self.db.test.find_one({'name': 'vasya'})
-        self.assertEqual(user['name'], 'vasya')
-        self.assertEqual(user['surname'], 'pupkin')
-
-    @gen_test
     def test_schedule_query_teacher_insert(self):
         yield self.query.save(1, 'Іщеряков Сергій Михайлович', 'teacher')
         model = yield self.query.find(user_id=1)
