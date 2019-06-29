@@ -1,4 +1,5 @@
 import json
+import re
 from dataclasses import dataclass
 from os import environ as env
 
@@ -21,13 +22,15 @@ class WebhookData:
     is_prerelease: bool
     is_draft: bool
     tag: str
+    description: str
 
     @staticmethod
     def build(webhook_data):
         return WebhookData(webhook_data['action'],
                            webhook_data['release']['prerelease'],
                            webhook_data['release']['draft'],
-                           webhook_data['release']['tag_name'])
+                           webhook_data['release']['tag_name'],
+                           webhook_data['release']['body'])
 
 
 @task
@@ -69,10 +72,15 @@ def deploy_process(c, tag):
 
 def should_to_deploy(webhook: WebhookData) -> bool:
     latest_release_tag = get_latest_release_tag()
-    print('webhook = ', webhook, 'latest_release_tag = ', latest_release_tag)
+    skip_flag = re.search(r'(<!--)(\s+)?(skip-deploy)(\s+)?(-->)',
+                          webhook.description, re.IGNORECASE)
+    print('webhook = ', webhook,
+          'latest_release_tag = ', latest_release_tag,
+          'skip_flag = ', skip_flag)
     return ((not webhook.is_prerelease and not webhook.is_draft)
             and webhook.action in ('published', 'edited')
-            and latest_release_tag == webhook.tag)
+            and latest_release_tag == webhook.tag
+            and not skip_flag)
 
 
 def get_latest_release_tag():
