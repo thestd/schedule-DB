@@ -12,29 +12,30 @@ pipeline {
   }
 
   stages {
-    stage('install') {
+    stage('Install') {
       steps {
         sh 'pip install -r requirements.txt'
       }
     }
 
-    stage('test') {
+    stage('Build') {
       steps {
-        sh 'nosetests --with-coverage'
+         parallel(
+          tests: {
+            sh 'nosetests --with-coverage'
+            sh 'coverage xml'
+          },
+          flake8: { sh 'flake8 src' }
+        )
       }
     }
 
-    stage('coverage') {
+    stage('Upload coverage') {
       steps {
-        sh 'coverage xml'
-        sh 'coveralls'
-        sh 'python-codacy-coverage'
-      }
-    }
-
-    stage('flake8') {
-      steps {
-        sh 'flake8 src'
+        parallel(
+          coveralls: { sh 'coveralls' },
+          codacy: { sh 'python-codacy-coverage' }
+        )
       }
     }
   }
