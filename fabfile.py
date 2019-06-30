@@ -12,8 +12,10 @@ REPO_NAME = 'schedule-DB'
 REPO_OWNER = 'thestd'
 REPO_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}'
 
-APPS_ROOT = '~/application'
+APPS_ROOT = '~/applications'
 PROJECT_ROOT = f'{APPS_ROOT}/{REPO_NAME}'
+
+INITIAL_ENV_FILE = f'~/env-files/{REPO_NAME}'
 
 
 @dataclass
@@ -61,7 +63,12 @@ def deploy(ctx, tag):
 def prepare(c):
     c.run(f'mkdir -p {APPS_ROOT}')
     with c.cd(APPS_ROOT):
-        c.run(f'if [ ! -d {PROJECT_ROOT} ] ; then git clone {REPO_URL}; fi')
+        c.run((f'''
+                if [ ! -d {PROJECT_ROOT} ] ; then
+                   git clone {REPO_URL}
+                   cp {INITIAL_ENV_FILE} {PROJECT_ROOT}/.env
+                fi
+                '''))
 
 
 def deploy_process(c, tag):
