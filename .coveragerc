@@ -1,0 +1,10 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+
+[report]
+show_missing = True
+include =
+    src/app/*
+omit =
+    src/app/main.py

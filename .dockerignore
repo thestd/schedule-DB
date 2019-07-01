@@ -1,0 +1,5 @@
+.idea/
+venv/
+data/
+.coverage
+coverage.xml
