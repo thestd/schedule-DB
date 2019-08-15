@@ -7,8 +7,16 @@ from tornado.web import Application
 from app.api.urls import urls
 
 
+def is_debug():
+    try:
+        debug = os.environ['DEBUG']
+        return debug.lower() in ("true", "t", "1")
+    except KeyError:
+        return False
+
+
 def load_conf():
-    define("debug", default=os.getenv("DEBUG", True))
+    define("debug", default=is_debug())
     define("db_name", default=os.getenv("DB_NAME", "pnu_schedule"))
     define("db_user", default=os.getenv("DB_USER", "user"))
     define("db_password", default=os.getenv("DB_PASSWORD", "password"))
