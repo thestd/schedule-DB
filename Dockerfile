@@ -6,4 +6,4 @@ WORKDIR /srv/tornado/schedule-DB
 RUN pip install -r requirements.txt
 
 ENV PYTHONPATH=src
-ENTRYPOINT ["python", "app/main.py"]
+ENTRYPOINT ["python", "manage.py", "runserver"]

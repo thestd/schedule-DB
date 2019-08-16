@@ -12,11 +12,7 @@ def start_loop():
         IOLoop.current().stop()
 
 
-def main():
+def run():
     app = make_app()
     app.listen(options.app_port)
     start_loop()
-
-
-if __name__ == '__main__':
-    main()
